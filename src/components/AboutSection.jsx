@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Code, 
@@ -8,8 +8,12 @@ import {
   Zap, 
   Target, 
   BookOpen, 
-  Brain 
+  Brain,
+  Rocket,
+  GitBranch,
+  Database
 } from 'lucide-react';
+import SkillsCards from './SkillsCard';
 
 const AboutSection = () => {
   const [activeTab, setActiveTab] = useState('story');
@@ -26,11 +30,7 @@ const AboutSection = () => {
     }
   ];
 
-  const skills = [
-    { icon: Code, name: 'Full Stack Development', level: 95 },
-    { icon: Brain, name: 'Problem Solving', level: 90 },
-    { icon: Zap, name: 'Performance Optimization', level: 88 }
-  ];
+ 
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -59,6 +59,21 @@ const AboutSection = () => {
       transition: { duration: 0.3 }
     }
   };
+  const achievements = [
+    {
+      icon: Award,
+      title: 'Machine Learning Certification',
+      issuer: 'Online Learning Platform',
+      year: 2023
+    },
+    {
+      icon: Rocket,
+      title: 'Hackathon Winner',
+      issuer: 'Regional Tech Conference',
+      year: 2022
+    }
+  ];
+
 
   const TabContent = {
     story: (
@@ -152,34 +167,33 @@ const AboutSection = () => {
         animate="visible"
         className="space-y-6"
       >
-        {skills.map((skill, index) => (
+      <SkillsCards />
+       
+      </motion.div>
+    ),
+    achievements: (
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="space-y-6"
+      >
+        {achievements.map((achievement, index) => (
           <motion.div 
             key={index}
             variants={itemVariants}
-            className="flex items-center space-x-4"
+            whileHover="hover"
+            className="bg-white/10 p-6 rounded-xl border border-white/10 flex items-center space-x-6"
           >
             <motion.div 
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
             >
-              <skill.icon className="w-10 h-10 text-blue-400" />
+              <achievement.icon className="w-12 h-12 text-blue-400" />
             </motion.div>
-            <div className="flex-grow">
-              <div className="flex justify-between mb-2">
-                <span className="text-white/80">{skill.name}</span>
-                <span className="text-white/70">{skill.level}%</span>
-              </div>
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: `${skill.level}%` }}
-                transition={{ 
-                  duration: 1, 
-                  delay: index * 0.2,
-                  type: "spring",
-                  stiffness: 50
-                }}
-                className="bg-blue-500 h-2.5 rounded-full"
-              />
+            <div>
+              <h3 className="text-xl font-bold text-white">{achievement.title}</h3>
+              <p className="text-white/70">{achievement.issuer} - {achievement.year}</p>
             </div>
           </motion.div>
         ))}
@@ -189,19 +203,19 @@ const AboutSection = () => {
 
   const TabButton = ({ children, value }) => (
     <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className={`
-        px-6 py-3 rounded-full transition-all duration-300
-        flex items-center space-x-2
-        ${activeTab === value 
-          ? 'bg-blue-600 text-white shadow-lg' 
-          : 'bg-white/10 text-white/70 hover:bg-white/20'}
-      `}
-      onClick={() => setActiveTab(value)}
-    >
-      {children}
-    </motion.button>
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className={`
+      px-6 py-3 rounded-full transition-all duration-300
+      flex items-center space-x-2
+      ${activeTab === value 
+        ? 'bg-blue-600 text-white shadow-lg' 
+        : 'bg-white/10 text-white/70 hover:bg-white/20'}
+    `}
+    onClick={() => setActiveTab(value)}
+  >
+    {children}
+  </motion.button>
   );
 
   return (
@@ -247,6 +261,10 @@ const AboutSection = () => {
           <TabButton value="skills">
             <Target className="w-5 h-5" />
             <span>Skills</span>
+          </TabButton>
+          <TabButton value="achievements">
+            <Award className="w-5 h-5" />
+            <span>Achievements</span>
           </TabButton>
         </motion.div>
 

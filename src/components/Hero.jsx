@@ -1,14 +1,54 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Waves, Leaf, Mountain, Sun } from 'lucide-react';
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
+  const [displayTextFirst, setDisplayTextFirst] = useState('');
+  const [displayTextSecond, setDisplayTextSecond] = useState('');
+  const [isFirstTextComplete, setIsFirstTextComplete] = useState(false);
   const heroRef = useRef(null);
+
+
+  const firstText = "Hi there, Am";
+  const secondText = "Sagnik Bhattacharya";
 
   useEffect(() => {
     setIsLoaded(true);
+    
+    
+    let currentIndexFirst = 0;
+    const typingIntervalFirst = setInterval(() => {
+      if (currentIndexFirst <= firstText.length) {
+        setDisplayTextFirst(firstText.slice(0, currentIndexFirst));
+        currentIndexFirst++;
+      } else {
+        clearInterval(typingIntervalFirst);
+        setIsFirstTextComplete(true);
+      }
+    }, 80); 
+
+    return () => clearInterval(typingIntervalFirst);
   }, []);
+
+  useEffect(() => {
+    
+    if (isFirstTextComplete) {
+      let currentIndexSecond = 0;
+      const typingIntervalSecond = setInterval(() => {
+        if (currentIndexSecond <= secondText.length) {
+          setDisplayTextSecond(secondText.slice(0, currentIndexSecond));
+          currentIndexSecond++;
+        } else {
+          clearInterval(typingIntervalSecond);
+        }
+      }, 100); 
+
+      return () => clearInterval(typingIntervalSecond);
+    }
+  }, [isFirstTextComplete]);
+
 
   const SectionCard = ({ icon: Icon, title, description, color }) => (
     <div 
@@ -81,7 +121,18 @@ const Hero = () => {
             `}
             style={{ transitionDelay: '200ms' }}
           >
-            Hi there, Am
+            {displayTextFirst}
+            {!isFirstTextComplete && (
+              <motion.span 
+                animate={{ opacity: [0, 1] }}
+                transition={{ 
+                  duration: 0.7, 
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                className="inline-block ml-1 bg-gray-600 w-1 h-6"
+              />
+            )}
           </p>
           <h1 
             className={`
@@ -93,7 +144,18 @@ const Hero = () => {
               ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}
             `}
           >
-            Sagnik Bhattacharya
+            {displayTextSecond}
+            {isFirstTextComplete && displayTextSecond.length < secondText.length && (
+              <motion.span 
+                animate={{ opacity: [0, 1] }}
+                transition={{ 
+                  duration: 0.7, 
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                className="inline-block ml-1 bg-blue-500 w-1 h-10"
+              />
+            )}
           </h1>
           <p 
             className={`

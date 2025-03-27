@@ -24,12 +24,7 @@
     padding: 1rem 2rem;
   }
   
-  .navbar-logo h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1e3a8a;
-    margin: 0;
-  }
+
   
   .navbar-links {
     display: flex;

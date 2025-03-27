@@ -36,7 +36,11 @@ const Navbar = () => {
     <nav className={`navbar ${visible ? 'visible' : ''} mb-6`} >
       <div className="navbar-container" >
         <div className="navbar-logo">
-          <h1>Sagnik.</h1>
+          <h1 className="text-2xl  p-4
+              text-transparent bg-clip-text 
+              bg-gradient-to-r from-blue-500 to-teal-400
+              transition-all duration-1000
+              font-extrabold">Sagnik.</h1>
         </div>
         
         <div className="navbar-links">
@@ -49,7 +53,8 @@ const Navbar = () => {
         </div>
         
         <div className='flex gap-4 justify-end'>
-          <a href="#contact"><button className="navbar-cta" >Contact</button></a>
+          <a href="#contact"><button className=" bg-gradient-to-r from-blue-400 to-teal-500 
+            text-white px-4 py-2 rounded-2xl" >Contact</button></a>
           
         </div>
       </div>
